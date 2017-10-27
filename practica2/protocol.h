@@ -3,17 +3,13 @@
 #endif
 
 // COMANDOS DE APLICACION
-#define SC "USER"  // SOLICITUD DE CONEXION USER usuario 
-#define PW "PASS"  // Password del usuario  PASS password
-
-#define HELP "HELP" // Comandos disponibles
-#define SUM "SUM"	// Suma de dos numeros
-#define SD  "QUIT"  // Finalizacion de la conexion de aplicacion
-#define SD2 "EXIT"  // Finalizacion de la conexion de aplicacion y finaliza servidor
+#define HELO "HELO"  //
+#define QUIT  "QUIT"  // Finalizacion de la conexion de aplicacion
 
 // RESPUESTAS A COMANDOS DE APLICACION
-#define OK  "OK"
-#define ER  "ERROR"
+#define OK  "2"
+#define OKDATA "3"
+#define ER  "5"
 
 //FIN DE RESPUESTA
 #define CRLF "\r\n"
