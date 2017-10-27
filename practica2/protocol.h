@@ -29,3 +29,5 @@
 // NOMBRE Y PASSWORD AUTORIZADOS
 #define USER		"alumno"
 #define PASSWORD	"123456"
+
+#define mod "mod"
