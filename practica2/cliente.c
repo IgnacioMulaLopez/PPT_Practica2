@@ -43,7 +43,7 @@ int main(int *argc, char *argv[])
 	int recibidos=0,enviados=0;
 	char intentos[2];
 	int fallo_len=0;
-	int estado=S_HELO;
+	int estado=S_WLCM;
 	char option;
 
 	WORD wVersionRequested;
@@ -108,7 +108,7 @@ int main(int *argc, char *argv[])
 			server_in.sin_addr.s_addr=inet_addr(ipdest);	//IP del servidor
 			
 			enviados=0;
-			estado=S_HELO;	//Estado inicial de saludo
+			estado=S_WLCM;	//Estado inicial de saludo
 		
 
 			if(connect(sockfd,(struct sockaddr*)&server_in,sizeof(server_in))==0){//SOCKET, es la primitiva connect(), que inicia la conexxión con u nservidor remoto.
@@ -119,20 +119,24 @@ int main(int *argc, char *argv[])
 				do{
 					switch(estado)
 					{
-					case S_HELO:
-						// Se recibe el mensaje de bienvenida
+
+					case S_WLCM:
+						//Se da la bienvenida al servidor.
 						break;
-					case S_USER:
+					case S_HELO:
 						// establece la conexion de aplicacion 
-						printf("CLIENTE> Introduzca el usuario (enter para salir): ");
+						printf("CLIENTE> Introduzca su host: ");
 						gets(input);
-						if(strlen(input)==0){	//Enter para salir
-							sprintf_s (buffer_out, sizeof(buffer_out), "%s%s",SD,CRLF); //Formato para Cerrar la Conexión
+						if(strcmp(input, QUIT)==0){	//Enter para salir
+							sprintf_s (buffer_out, sizeof(buffer_out), "%s%s%s",QUIT,CRLF); //Formato para Cerrar la Conexión
 							estado=S_QUIT;
 						}
-						else sprintf_s (buffer_out, sizeof(buffer_out), "%s %s%s",SC,input,CRLF);  //Formato de envio de usuario
+						else if(strcmp(input, HELO) == 0) {
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s %s%s", HELO, input, CRLF);
+						}
 						break;
-					case S_PASS:
+
+					/*case S_PASS:
 						//Contraseña
 						printf("CLIENTE> Introduzca la clave (enter para salir): ");
 						gets(input);
@@ -144,6 +148,7 @@ int main(int *argc, char *argv[])
 						else
 							sprintf_s (buffer_out, sizeof(buffer_out), "%s %s%s",PW,input,CRLF);	//Formato de envio de contraseña
 						break;
+						
 					case S_DATA:
 						//Funcionalidad del servidor
 						printf("CLIENTE> Introduzca datos (enter o QUIT para salir): ");
@@ -197,11 +202,11 @@ int main(int *argc, char *argv[])
 							else sprintf_s (buffer_out, sizeof(buffer_out), "%s%s",input,CRLF); //Formato del resto de comandos
 						}
 						break;
-				
+				*/
 					}
 
 					//Envio
-					if(estado!=S_HELO){ //Comprobar el estado de envio
+					if(estado!=S_WLCM){ //Comprobar el estado de envio
 						enviados=send(sockfd,buffer_out,(int)strlen(buffer_out),0);//SOCKET, es la primitiva send(), que envia el mensaje.
 					}
 					if (enviados<0){
@@ -217,7 +222,7 @@ int main(int *argc, char *argv[])
 
 					if(recibidos<=0){
 						DWORD error=GetLastError();
-						if(recibidos<0 && strncmp(input,SD2,4)!=0 && strncmp(input,SD,4)!=0)
+						if(recibidos<0 && strncmp(input,QUIT,4)!=0 && strncmp(input,QUIT,4)!=0)
 						{
 							printf("CLIENTE> Error %d en la recepción de datos\r\n",error);
 							estado=S_QUIT;
@@ -236,7 +241,7 @@ int main(int *argc, char *argv[])
 						buffer_in[recibidos]=0x00;
 						
 						//Presentacion de la Solucion de la suma
-						if (strncmp(input,SUM,3)==0 && strncmp(buffer_in,"OK",2)==0){
+						/*if (strncmp(input,SUM,3)==0 && strncmp(buffer_in,"OK",2)==0){
 							sscanf_s(buffer_in,"OK %s\r\n",SOL,sizeof(SOL));
 							printf("CLIENTE> Resultado = %s%s",SOL,CRLF);
 						}
@@ -251,9 +256,9 @@ int main(int *argc, char *argv[])
 								estado = S_QUIT;							//Se Cierra la conexión
 							}	
 						}
-
+						*/
 						//Avance de la maquina de estados
-						else if(estado!=S_DATA && strncmp(buffer_in,OK,2)==0){
+						/*else*/ if(estado!=S_DATA && strncmp(buffer_in,OK,2)==0){
 							estado++;
 						}
 						
@@ -268,7 +273,7 @@ int main(int *argc, char *argv[])
 			closesocket(sockfd); //SOCKET la primitiva close() que cierra la memoria.
 			
 		}
-		estado =S_HELO;
+		estado =S_WLCM;
 		printf("-----------------------\r\n\r\nCLIENTE> Volver a conectar (S/N)\r\n");
 		option=_getche();	//realizar otra conexión
 

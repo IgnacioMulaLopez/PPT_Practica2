@@ -3,8 +3,12 @@
 #endif
 
 // COMANDOS DE APLICACION
-#define HELO "HELO"  //
-#define QUIT  "QUIT"  // Finalizacion de la conexion de aplicacion
+#define HELO "HELO"  // Mensaje de bienvenida del servidor.
+#define MAIL "MAIL"  // Comando para introducir el remitente del correo.
+#define RCPT "RCPT"  // Comando para indicar el destinatario del correo.
+#define DATA "DATA"  // Comando para introducir el mensaje del correo.
+#define RSET "RSET"  // Comando para resetear el proceso.
+#define QUIT "QUIT"  // Finalizacion de la conexion de aplicacion.
 
 // RESPUESTAS A COMANDOS DE APLICACION
 #define OK  "2"
@@ -15,19 +19,15 @@
 #define CRLF "\r\n"
 
 //ESTADOS
-#define S_HELO 0
-#define S_USER 1
-#define S_PASS 2
-#define S_DATA 3
-#define S_QUIT 4
-#define S_EXIT 5
-#define S_SUM  6
+#define S_WLCM 0
+#define S_HELO 1
+#define S_MAIL 2
+#define S_RCPT 3
+#define S_DATA 4
+#define S_RSET 5
+#define S_QUIT 6
 
 //PUERTO DEL SERVICIO
-#define TCP_SERVICE_PORT	6000
-
-// NOMBRE Y PASSWORD AUTORIZADOS
-#define USER		"alumno"
-#define PASSWORD	"123456"
+#define TCP_SERVICE_PORT	25
 
 #define mod "mod"

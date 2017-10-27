@@ -1,0 +1,13 @@
+﻿  cliente.c
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(100): warning C4013: 'gets' sin definir; se supone que extern devuelve como resultado int
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(103): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: vea la declaración de 'strcpy'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(131): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(131): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(131): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(42): warning C4101: 'NUM1': variable local sin referencia
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(44): warning C4101: 'intentos': variable local sin referencia
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(42): warning C4101: 'SOL': variable local sin referencia
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(42): warning C4101: 'NUM2': variable local sin referencia
+  practica2.vcxproj -> C:\Users\ignac\Documents\GitHub\PPT_Practica2\practica2\Debug\practica2.exe
+  practica2.vcxproj -> C:\Users\ignac\Documents\GitHub\PPT_Practica2\practica2\Debug\practica2.pdb (Full PDB)
