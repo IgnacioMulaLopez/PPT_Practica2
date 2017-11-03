@@ -4,8 +4,8 @@
 
 // COMANDOS DE APLICACION
 #define HELO "HELO"  // Mensaje de bienvenida del servidor.
-#define MAIL "MAIL"  // Comando para introducir el remitente del correo.
-#define RCPT "RCPT"  // Comando para indicar el destinatario del correo.
+#define MAIL "MAIL FROM:"  // Comando para introducir el remitente del correo.
+#define RCPT "RCPT TO:"  // Comando para indicar el destinatario del correo.
 #define DATA "DATA"  // Comando para introducir el mensaje del correo.
 #define RSET "RSET"  // Comando para resetear el proceso.
 #define QUIT "QUIT"  // Finalizacion de la conexion de aplicacion.
@@ -24,8 +24,9 @@
 #define S_MAIL 2
 #define S_RCPT 3
 #define S_DATA 4
-#define S_RSET 5
-#define S_QUIT 6
+#define S_MSEG 5
+#define S_RSET 6
+#define S_QUIT 7
 
 //PUERTO DEL SERVICIO
 #define TCP_SERVICE_PORT	25

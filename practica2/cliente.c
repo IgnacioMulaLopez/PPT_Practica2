@@ -39,12 +39,16 @@ int main(int *argc, char *argv[])
 	//La declaración de variables, se hará al inicio de cada bloque.
 	SOCKET sockfd;
 	struct sockaddr_in server_in;
-	char buffer_in[1024], buffer_out[1024],input[1024],NUM1[5],NUM2[5],SOL[6];
+	char buffer_in[1024], buffer_out[1024],input[1024],response[4],opcion[1],asunto[50],remitente[20],destinat[20],mensaje[1024];
 	int recibidos=0,enviados=0;
 	char intentos[2];
-	int fallo_len=0;
+	int fallo_len=0, fin=0;
 	int estado=S_WLCM;
 	char option;
+
+	time_t tiempo = time(0);
+	struct tm *tlocal = localtime(&tiempo);
+	char timestamp[128];
 
 	WORD wVersionRequested;
 	WSADATA wsaData;
@@ -123,6 +127,7 @@ int main(int *argc, char *argv[])
 					case S_WLCM:
 						//Se da la bienvenida al servidor.
 						break;
+						
 					case S_HELO:
 						// establece la conexion de aplicacion 
 						printf("CLIENTE> Introduzca su host: ");
@@ -131,78 +136,85 @@ int main(int *argc, char *argv[])
 							sprintf_s (buffer_out, sizeof(buffer_out), "%s%s%s",QUIT,CRLF); //Formato para Cerrar la Conexión
 							estado=S_QUIT;
 						}
-						else if(strcmp(input, HELO) == 0) {
+						else if((strcmp(input, HELO) == 0) || (strcmp(input, "helo") == 0) ) {
 							sprintf_s(buffer_out, sizeof(buffer_out), "%s %s%s", HELO, input, CRLF);
 						}
 						break;
 
-					/*case S_PASS:
-						//Contraseña
-						printf("CLIENTE> Introduzca la clave (enter para salir): ");
+					case S_MAIL:
+						printf("CLIENTE> Introduzca el remitente: ");
 						gets(input);
-						if(strlen(input)==0)	//Enter para salir
-						{
-							sprintf_s (buffer_out, sizeof(buffer_out), "%s%s",SD,CRLF); //Formato para Cerrar la Conexion
-							estado=S_QUIT;
+						if (strcmp(input, QUIT) == 0 || (strcmp(input, "quit") == 0)) {	//Enter para salir
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s%s%s", QUIT, CRLF); //Formato para Cerrar la Conexión
+							estado = S_QUIT;
+						}
+						else if (strcmp(input, RSET) == 0 || (strcmp(input, "rset") == 0)) {	//Enter para salir
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s%s%s", RSET, CRLF); //Formato para Cerrar la Conexión
+							estado = S_RSET;
 						}
 						else
-							sprintf_s (buffer_out, sizeof(buffer_out), "%s %s%s",PW,input,CRLF);	//Formato de envio de contraseña
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s %s%s", MAIL, input, CRLF);
+						strcpy(remitente, input);
 						break;
-						
-					case S_DATA:
-						//Funcionalidad del servidor
-						printf("CLIENTE> Introduzca datos (enter o QUIT para salir): ");
+
+					case S_RCPT:
+						printf("CLIENTE> Introduzca el destinatario: ");
 						gets(input);
-						if(strlen(input)==0){	//Enter para salir
-							sprintf_s (buffer_out, sizeof(buffer_out), "%s%s",SD,CRLF);		//Formato para Cerrar la Cnexion
-							estado=S_QUIT;
+						if (strcmp(input, QUIT) == 0 || (strcmp(input, "quit") == 0)) {	//Enter para salir
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s%s%s", QUIT, CRLF); //Formato para Cerrar la Conexión
+							estado = S_QUIT;
 						}
-						else{
-							if (strncmp(input,SUM,3)==0){//Comando Sum
-
-								//Numero 1
-								do{
-									fallo_len=0;
-									printf("CLIENTE> Introduce el primer numero: ");
-									gets(NUM1);
-									if(strlen(NUM1)>4){		//Comprobación del tamaño
-										printf("CLIENTE> %s MAXIMO 4 DIGITOS%s",ER,CRLF);
-										fallo_len=1;
-									}
-								}while(fallo_len==1);
-
-								//Numero 2
-								do{
-									fallo_len=0;
-									printf("CLIENTE> Introduce el segundo numero: ");
-									gets(NUM2);
-									if(strlen(NUM2)>4){		//Comprobacion del tamaño
-										printf("CLIENTE> %s MAXIMO 4 DIGITOS%s",ER,CRLF);
-										fallo_len=1;
-									}
-								}while(fallo_len==1);
-
-								//Formato de envio
-								sprintf_s(buffer_out,sizeof(buffer_out),"SUM %s %s%s",NUM1,NUM2,CRLF);
-							}
-							
-							//Comando EXIT
-							else if(strncmp(input,SD2,4)==0){	//Correcion del Fallo del comando EXIT
-								sprintf_s (buffer_out, sizeof(buffer_out), "%s%s",input,CRLF);	//Formato de envio del EXIT
-								estado = S_QUIT;
-							}
-
-							//Comando QUIT
-							else if(strncmp(input,SD,4)==0){  //Correcion del Fallo del comando QUIT
-								sprintf_s (buffer_out, sizeof(buffer_out), "%s%s",input,CRLF);	//Formato de envio de QUIT
-								estado = S_QUIT;
-							}
-
-							//Resto de comandos
-							else sprintf_s (buffer_out, sizeof(buffer_out), "%s%s",input,CRLF); //Formato del resto de comandos
+						else if (strcmp(input, RSET) == 0 || (strcmp(input, "rset") == 0)) {	//Enter para salir
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s%s%s", RSET, CRLF); //Formato para Cerrar la Conexión
+							estado = S_RSET;
 						}
+						else
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s %s%s", RCPT, input, CRLF);
+						strcpy(destinat, input);
 						break;
-				*/
+					case S_DATA:
+						printf("CLIENTE> Introduzca el mensaje (ha de terminar con un '.'): ");
+						gets(input);
+						if (strcmp(input, QUIT) == 0 || (strcmp(input, "quit") == 0)) {	//Enter para salir
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s%s%s", QUIT, CRLF); //Formato para Cerrar la Conexión
+							estado = S_QUIT;
+						}
+						else if (strcmp(input, RSET) == 0 || (strcmp(input, "rset") == 0)) {	//Enter para salir
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s%s%s", RSET, CRLF); //Formato para Cerrar la Conexión
+							estado = S_RSET;
+						}
+						else
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s %s%s", DATA, input, CRLF);
+						break;
+
+					case S_MSEG:
+
+						strftime(timestamp, 128, "%d/%m/%y %H:%M:%S", tlocal); //timestamp contiene la hora.
+						printf("\nAsunto: ");
+						gets(asunto);
+						sprintf_s(mensaje, sizeof(mensaje), "Date: %s%sSubject: %s%sTo: %s%sFrom:%s%s", tlocal, CRLF, asunto, CRLF, destinat, CRLF, remitente, CRLF);
+						printf("Date: %s%sSubject: %s%sTo: %s%sFrom:%s%s", tlocal, CRLF, asunto, CRLF, destinat, CRLF, remitente, CRLF);
+
+						do {
+							gets(input);
+							sprintf_s(mensaje, sizeof(mensaje), "%s%s%s", mensaje, CRLF, input);
+						} while (strcmp(input, ".", 1) != 0); {
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s%s", mensaje, CRLF);
+						}
+						/*
+						gets(input);
+						if (strcmp(input, ".") == 0) {
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s", input);
+							fin = 1;
+						}
+						else {
+							sprintf_s(buffer_out, sizeof(buffer_out), "%s", input);
+							fin = 0;
+						}*/
+
+
+						break;
+
 					}
 
 					//Envio
@@ -230,38 +242,61 @@ int main(int *argc, char *argv[])
 						else
 						{
 							printf("CLIENTE> Conexión con el servidor cerrada\r\n");
-							estado=S_QUIT;
-						
-					
+							estado=S_QUIT;					
 						}
 					}
 
 					else
 					{
 						buffer_in[recibidos]=0x00;
+						sscanf_s(buffer_in, "%s %[^\r]s %s\r\n", response, sizeof(response), input, sizeof(input));
+						printf("%s\r\n", input);
 						
-						//Presentacion de la Solucion de la suma
-						/*if (strncmp(input,SUM,3)==0 && strncmp(buffer_in,"OK",2)==0){
-							sscanf_s(buffer_in,"OK %s\r\n",SOL,sizeof(SOL));
-							printf("CLIENTE> Resultado = %s%s",SOL,CRLF);
-						}
-						//Presentacion del resto de datos recibidos
-						else printf(buffer_in);
-
-						//Solución a la autentificacion erronea
-						sscanf_s(buffer_in,"ERROR Autenticacion erronea intentos %s\r\n",intentos,sizeof(intentos));	//formato de recepción de intentos
-						if (strncmp(buffer_in,ER,5)==0 && estado==S_PASS){	//En caso de reccibir un error despues de enviar la contraseña
-							estado = S_USER;								//volvemos al estado usuario
-							if (strncmp(intentos,"3",1)==0){				//Al tercer intento
-								estado = S_QUIT;							//Se Cierra la conexión
-							}	
-						}
-						*/
 						//Avance de la maquina de estados
-						/*else*/ if(estado!=S_DATA && strncmp(buffer_in,OK,2)==0){
+						switch (estado) {
+						case S_WLCM:
+							estado++;
+							break;
+						case S_HELO:
+						case S_MAIL:
+							if (strncmp(response, "2", 1) == 0)
+								estado++;
+							break;
+
+						case S_RCPT:
+							printf("Desea introducir mas destinatrios? (S/N)\r\n");
+							gets(opcion);
+							if((strncmp(opcion, "n", 1)== 0) || (strncmp(opcion, "N", 1)==0)){
+								estado++;
+							}
+							else
+								estado = 3;
+						break;
+						case S_DATA:
+							if (strncmp(response, "3", 1) == 0) {
+								estado++;
+							}
+							break;
+						case S_MSEG:
+							if (fin == 1) {
+								estado++;
+							}
+							else
+								estado = 5;
+							break;
+						case S_RSET:
+							estado = 2;
+							break;
+						case S_QUIT:
+							break;
+
+						}
+						/*if(estado!=S_DATA && strncmp(response,"2",1)==0){
 							estado++;
 						}
-						
+						else if(estado == S_DATA && strcmp(response,"2",1)==0) {
+							estado++;
+						}*/
 					}
 				}while(estado!=S_QUIT);			
 			}

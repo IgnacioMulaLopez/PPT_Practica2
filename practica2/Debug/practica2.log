@@ -1,13 +1,41 @@
 ﻿  cliente.c
-c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(100): warning C4013: 'gets' sin definir; se supone que extern devuelve como resultado int
-c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(103): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(104): warning C4013: 'gets' sin definir; se supone que extern devuelve como resultado int
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(201): warning C4020: 'strcmp': hay demasiados parámetros reales
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(50): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\time.h(505): note: vea la declaración de 'localtime'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(107): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: vea la declaración de 'strcpy'
-c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(131): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
-  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(131): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
-  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(131): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
-c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(42): warning C4101: 'NUM1': variable local sin referencia
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(136): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(136): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(136): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(148): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(148): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(148): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(152): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(152): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(152): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(157): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: vea la declaración de 'strcpy'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(164): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(164): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(164): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(168): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(168): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(168): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(173): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: vea la declaración de 'strcpy'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(179): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(179): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(179): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(183): warning C4473: "sprintf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(183): note: los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 2
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(183): note: el argumento variádico 3 que falta es requerido por la cadena de formato '%s'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(195): warning C4477: 'sprintf_s' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 1 tiene el tipo 'tm *'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(196): warning C4477: 'printf' : la cadena de formato '%s' requiere un argumento de tipo 'char *', pero el argumento variádico 1 tiene el tipo 'tm *'
+c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(252): warning C4473: "sscanf_s": no se pasaron suficientes argumentos para la cadena de formato
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(252): note: los marcadores de posición y sus parámetros esperan 6 argumentos variádicos, pero se proporcionaron 4
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(252): note: el argumento variádico 5 que falta es requerido por la cadena de formato '%s'
+  c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(252): note: este argumento se utiliza por un especificador de conversión
 c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(44): warning C4101: 'intentos': variable local sin referencia
-c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(42): warning C4101: 'SOL': variable local sin referencia
-c:\users\ignac\documents\github\ppt_practica2\practica2\cliente.c(42): warning C4101: 'NUM2': variable local sin referencia
   practica2.vcxproj -> C:\Users\ignac\Documents\GitHub\PPT_Practica2\practica2\Debug\practica2.exe
   practica2.vcxproj -> C:\Users\ignac\Documents\GitHub\PPT_Practica2\practica2\Debug\practica2.pdb (Full PDB)
