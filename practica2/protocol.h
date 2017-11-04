@@ -17,6 +17,7 @@
 
 //FIN DE RESPUESTA
 #define CRLF "\r\n"
+#define SP " "
 
 //ESTADOS
 #define S_WLCM 0
