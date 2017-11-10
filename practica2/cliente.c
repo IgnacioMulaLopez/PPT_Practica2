@@ -36,22 +36,39 @@ int main(int *argc, char *argv[])
 	//La declaración de variables, se hará al inicio de cada bloque.
 	SOCKET sockfd;
 	struct sockaddr_in server_in;
-	char buffer_in[1024], buffer_out[1024],input[1024],response[4],opcion[1],asunto[50],remitente[20],destinat[20],mensaje[1024];
-	int recibidos=0,enviados=0;
+	char buffer_in[1024], buffer_out[1024], input[1024], response[4], opcion[2], asunto[50], remitente[20], destinat[20], mensaje[1024];
+	int recibidos = 0, enviados = 0, control =1;
 	char intentos[2];
-	int fallo_len=0, fin=0;
-	int estado=S_WLCM;
+	int fallo_len = 0, fin = 0;
+	int estado = S_WLCM;
 	char option;
+
 	// Vamos a crear la estructura que almacenará la fecha y la hora, para la cabecera correspondiente.
 	time_t tiempo = time(0);
 	struct tm *tlocal = localtime(&tiempo);
 	char timestamp[128];
 
+	struct in_addr sin_addr;
+
+	typedef struct addrinfo	{
+		int	ai_flags;
+		int	ai_family;
+		int	ai_socktype;
+		int	ai_protocol;
+		size_t	ai_addrlen;
+		char *ai_canonname;
+		struct	sockaddr *ai_addr;
+		struct	addrinfo *ai_next;
+	} ADDRINFOA, *PADDRINFOA;
+
+	struct in_addr address;
+
+
 	WORD wVersionRequested;
 	WSADATA wsaData;
 	int err;
 
-    char ipdest[16];
+	char ipdest[16];
 	char default_ip[16]="127.0.0.1";
 
 	//Inicialización Windows sockets -                 ¡¡SOLO WINDOWS!!
@@ -81,12 +98,32 @@ int main(int *argc, char *argv[])
 		else{
 			printf("CLIENTE> SOCKET CREADO CORRECTAMENTE\r\n");											//En el caso de que todo haya salido bien, informamos al usuario por pantalla.
 
-			printf("CLIENTE> Introduzca la IP destino (pulsar enter para IP por defecto): ");			//Solicitamos al cliente que introduzca la dirección IP del servidor al que se quiere conectar.
+			do{
+			printf("Introduzca la direccion IP o el dominio destino: ");
+			gets(ipdest);
+			server_in.sin_addr.s_addr = inet_addr(ipdest);
+			if(server_in.sin_addr.s_addr==INADDR_NONE){//La dirección introducida por teclado no es correcta o no corresponde con un dominio.
+				struct hostent *host;
+				host=gethostbyname(ipdest);
+				if (host != NULL) {
+					memcpy(&address, host->h_addr_list[0], 4);
+					printf("\nDireccion%s\n", inet_ntoa(address));
+					strcpy(ipdest, inet_ntoa(address));
+				}	
+			} else {
+				printf("No se ha introducido ninguna dirección correcta, o no correponde con un dominio existente.\r\n");
+				printf("Por favor, introduzca una direccion, o nombre valido.\r\n");
+				control = 0;
+				}
+			} while (control !=1);
+
+
+			/*printf("CLIENTE> Introduzca la IP destino (pulsar enter para IP por defecto): ");			//Solicitamos al cliente que introduzca la dirección IP del servidor al que se quiere conectar.
 			gets(ipdest);																				//Dicha dirección IP, se alamacenará en la variable "ipdest".
 
 			if(strcmp(ipdest,"")==0)																	//Caso por defecto.
 				strcpy(ipdest,default_ip);																//En el caso de introducir un dirección ip nueva, se copiará en la variable "default_ip".
-
+				*/
 
 			server_in.sin_family=AF_INET;																//Familia IP
 			server_in.sin_port=htons(TCP_SERVICE_PORT);													//Puerto Que vamos a usar
@@ -215,7 +252,9 @@ int main(int *argc, char *argv[])
 						case S_HELO:																	//En el caso de saludo.
 						case S_MAIL:																	//Y en el caso de "MAIL".
 							if (strncmp(response, "2", 1) == 0)											//Si recibimos una respuesta positiva del servidor (2xx).
-								estado++;																//Avanzamos al siguiente estado.
+								estado++; //Avanzamos al siguiente estado.
+							if (strncmp(response, "5", 1) == 0)
+								estado = S_QUIT;
 							break;																		//Fin de los casos saludo y mail.
 
 						case S_RCPT:																	//En el caso RCPT
