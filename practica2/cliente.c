@@ -102,19 +102,22 @@ int main(int *argc, char *argv[])
 			printf("Introduzca la direccion IP o el dominio destino: ");
 			gets(ipdest);
 			server_in.sin_addr.s_addr = inet_addr(ipdest);
-			if(server_in.sin_addr.s_addr==INADDR_NONE){//La dirección introducida por teclado no es correcta o no corresponde con un dominio.
+			if (server_in.sin_addr.s_addr == INADDR_NONE) {
 				struct hostent *host;
-				host=gethostbyname(ipdest);
-				if (host != NULL) {
+
+				host = gethostbyname(ipdest);
+				if (host != NULL) { //Si la dirección introducida por teclado no es correcta o no corresponde con un dominio.
 					memcpy(&address, host->h_addr_list[0], 4);
 					printf("\nDireccion%s\n", inet_ntoa(address));
 					strcpy(ipdest, inet_ntoa(address));
-				}	
-			} else {
-				printf("No se ha introducido ninguna dirección correcta, o no correponde con un dominio existente.\r\n");
-				printf("Por favor, introduzca una direccion, o nombre valido.\r\n");
-				control = 0;
+					control = 1;
 				}
+				else {
+					printf("No se ha introducido ninguna direccion correcta, o no correponde con un dominio existente.\r\n");
+					printf("Por favor, introduzca una direccion, o nombre valido.\r\n");
+					control = 0;
+				}
+			}
 			} while (control !=1);
 
 
