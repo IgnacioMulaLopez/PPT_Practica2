@@ -132,7 +132,7 @@ int main(int *argc, char *argv[])
 			server_in.sin_port=htons(TCP_SERVICE_PORT);													//Puerto Que vamos a usar
 			server_in.sin_addr.s_addr=inet_addr(ipdest);												//IP del servidor
 			
-			enviados=0;																					//Inicializamos la variable "enviados" a cero.
+			enviados=1;																					//Inicializamos la variable "enviados" a cero.
 			estado=S_WLCM;																				//Estado inicial de saludo
 		
 
@@ -221,7 +221,7 @@ int main(int *argc, char *argv[])
 					if(estado!=S_WLCM){																	//Para enviar mensajes comprobamos que no nos encontramos en el caso de bienvenida.
 						enviados=send(sockfd,buffer_out,(int)strlen(buffer_out),0);						//SOCKET, es la primitiva send(), que envia el mensaje.
 					}
-					if (enviados<0){																	//En el caso de que haya ocurrido algún error, y la variable recibidos sea menor que cero.
+					if (enviados<=0){																	//En el caso de que haya ocurrido algún error, y la variable recibidos sea menor que cero.
 						DWORD error=GetLastError();														//Obtenemos cual ha sido el error que se ha producido.
 							printf("CLIENTE> Error %d en el envio de datos%s",error,CRLF);				//Informamos al usuario de que se ha producido tal error.
 							break; //?
